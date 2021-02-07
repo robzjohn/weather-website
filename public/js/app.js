@@ -10,7 +10,7 @@ weatherForm.addEventListener('submit', (e) => {
     const location = search.value
 
     messageOne.textContent = 'Loading...'
-    messageTwo.textContent = ''
+    messageTwo.innerHTML = ''
 
     fetch('/weather?address=' + location).then((response) => {
     response.json().then((data) => {
@@ -18,9 +18,10 @@ weatherForm.addEventListener('submit', (e) => {
             messageOne.textContent = data.error
 
         } else {
+            let tableHTML = '<tr><th>Temperature</th><th>Feels Like</th><th>Wind Speed</th><th>Wind Direction</th><th>Precipitation</th><th>Humidity</th><th>Cloud Cover</th><th>UV Index</th></tr><tr><td>' 
+                            + data.forecast.temperature + '</td><td>' + data.forecast.feelslike + '</td><td>' + data.forecast.wind_speed + 'mph</td><td>' + data.forecast.wind_dir + '</td><td>' + data.forecast.precip + '%</td><td>' + data.forecast.humidity + '%</td><td>' + data.forecast.cloudcover + '%</td><td>' + data.forecast.uv_index + '</td></tr>'
             messageOne.textContent = data.location
-            messageTwo.textContent = 'temperature = ' + data.forecast.temperature + 
-                                     '\nfeels like = ' + data.forecast.feelslike
+            messageTwo.innerHTML = tableHTML
             }
         })
     })
